@@ -1,15 +1,42 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+// Main.java
 public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+    public static void main(String[] args) throws CloneNotSupportedException {
+        // Singleton example
+        CoffeeShopSingleton shop = CoffeeShopSingleton.getInstance();
+        shop.takeOrder("Espresso with sugar");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        // Factory Method example
+        CoffeeFactory espressoFactory = new EspressoFactory();
+        Coffee espresso = espressoFactory.createCoffee();
+        espresso.prepare();
+
+        CoffeeFactory latteFactory = new LatteFactory();
+        Coffee latte = latteFactory.createCoffee();
+        latte.prepare();
+
+        // Abstract Factory example
+        IngredientFactory espressoIngredients = new EspressoIngredientFactory();
+        espressoIngredients.createMilk().addMilk();
+        espressoIngredients.createSyrup().addSyrup();
+        espressoIngredients.createAddon().addAddon();
+
+        IngredientFactory latteIngredients = new LatteIngredientFactory();
+        latteIngredients.createMilk().addMilk();
+        latteIngredients.createSyrup().addSyrup();
+        latteIngredients.createAddon().addAddon();
+
+        // Prototype example
+        EspressoOrder originalOrder = new EspressoOrder();
+        CoffeeOrderPrototype clonedOrder = originalOrder.clone();
+        clonedOrder.showOrderDetails();
+
+        // Builder example
+        CustomCoffee customCoffee = new CoffeeBuilder()
+                .setCoffeeType("Latte")
+                .setMilkType("Almond Milk")
+                .setSyrupType("Caramel")
+                .setAddonType("Whipped Cream")
+                .build();
+        customCoffee.showDetails();
     }
 }

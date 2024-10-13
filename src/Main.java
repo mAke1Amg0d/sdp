@@ -7,11 +7,90 @@ import Assignment2.Composite.DocumentGroup;
 import Assignment2.Document;
 import Assignment2.Facade.DocumentFacade;
 import Assignment2.Flyweight.DocumentFactory;
+import Assignment3.Chain.PaymentA;
+import Assignment3.Chain.PaymentB;
+import Assignment3.Chain.PaymentC;
+import Assignment3.Chain.PaymentHandler;
+import Assignment3.Command.RemoteControl;
+import Assignment3.Command.Television;
+import Assignment3.Command.TurnOffCommand;
+import Assignment3.Command.TurnOnCommand;
+import Assignment3.Iterator.ArrayMovieCollection;
+import Assignment3.Iterator.Iterator;
+import Assignment3.Iterator.ListMovieCollection;
+import Assignment3.Mediator.HomeMediator;
+import Assignment3.Mediator.Sensor;
+import Assignment3.Mediator.TemperatureSensor;
+import Assignment3.Memento.Caretaker;
+import Assignment3.Memento.TextEditor;
 
 // Main.java
 public class Main {
     public static void main(String[] args) throws CloneNotSupportedException {
 
+        //Chain
+        PaymentHandler paymentA = new PaymentA();
+        PaymentHandler paymentB = new PaymentB();
+        PaymentHandler paymentC = new PaymentC();
+
+        paymentA.setNextHandler(paymentB);
+        paymentB.setNextHandler(paymentC);
+
+        paymentA.handlePayment(210);
+
+
+        //Command
+        Television tv = new Television();
+        RemoteControl remote = new RemoteControl();
+
+        remote.setCommand(0, new TurnOnCommand(tv));
+        remote.setCommand(1, new TurnOffCommand(tv));
+
+        remote.pressButton(0); // TV ON
+        remote.pressButton(1); // TV OFF
+
+
+        //Iterator
+        ListMovieCollection listMovies = new ListMovieCollection();
+        listMovies.addMovie("Movie 1");
+        listMovies.addMovie("Movie 2");
+
+        ArrayMovieCollection arrayMovies = new ArrayMovieCollection(new String[]{"Movie A", "Movie B"});
+
+        Iterator<String> listIterator = listMovies.iterator();
+        while (listIterator.hasNext()) {
+            System.out.println(listIterator.next());
+        }
+
+        Iterator<String> arrayIterator = arrayMovies.iterator();
+        while (arrayIterator.hasNext()) {
+            System.out.println(arrayIterator.next());
+        }
+
+
+        //Mediator
+        HomeMediator mediator = new HomeMediator();
+
+        Sensor tempSensor = new TemperatureSensor(mediator);
+        tempSensor.sendData();  // Sending temperature data
+
+
+        //Memento
+        TextEditor editor = new TextEditor();
+        Caretaker caretaker = new Caretaker();
+
+        editor.addText("Hello, ");
+        caretaker.save(editor);
+        System.out.println(editor.getText());
+
+        editor.addText("World!");
+        System.out.println(editor.getText()); // Output: Hello, World!
+
+        caretaker.undo(editor);
+        System.out.println(editor.getText()); // Output: Hello,
+
+
+        /* Assignment 2
         DocumentFacade facade = new DocumentFacade();
 
         // 1. Использование Proxy для ленивой загрузки
@@ -44,12 +123,14 @@ public class Main {
         facade.renderDocument("Report", simpleEngine);
 
         RenderEngine highlightEngine = new HighlightRenderEngine();
-        facade.renderDocument("Report", highlightEngine);
+        facade.renderDocument("Report", highlightEngine);*/
 
 
 
 
-        /*// Singleton example
+
+
+        /*// Singleton example Assignment 1
         CoffeeShopSingleton shop = CoffeeShopSingleton.getInstance();
         shop.takeOrder("Assignment1.Espresso with sugar");
 

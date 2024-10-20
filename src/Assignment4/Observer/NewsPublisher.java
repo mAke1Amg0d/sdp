@@ -6,3 +6,4 @@ public interface NewsPublisher {
     void notifyObservers(String category, String news);
 }
 
+

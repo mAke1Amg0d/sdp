@@ -18,3 +18,4 @@ public class PausedState implements PlayerState {
         player.setState(new StoppedState());
     }
 }
+

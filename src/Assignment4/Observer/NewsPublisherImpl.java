@@ -27,3 +27,4 @@ public class NewsPublisherImpl implements NewsPublisher {
         notifyObservers(category, news);
     }
 }
+

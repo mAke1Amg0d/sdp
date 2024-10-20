@@ -6,3 +6,4 @@ public class NewsSubscriberTablet implements Observer {
         System.out.println("Tablet received news in category " + newsCategory + ": " + news);
     }
 }
+

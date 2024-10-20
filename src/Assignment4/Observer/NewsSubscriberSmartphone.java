@@ -8,3 +8,4 @@ public class NewsSubscriberSmartphone implements Observer {
         }
     }
 }
+

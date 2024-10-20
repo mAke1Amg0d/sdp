@@ -8,3 +8,4 @@ public class NewsSubscriberLaptop implements Observer {
         }
     }
 }
+

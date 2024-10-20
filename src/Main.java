@@ -23,11 +23,96 @@ import Assignment3.Mediator.Sensor;
 import Assignment3.Mediator.TemperatureSensor;
 import Assignment3.Memento.Caretaker;
 import Assignment3.Memento.TextEditor;
+import Assignment4.Observer.*;
+import Assignment4.State.Player;
+import Assignment4.Strategy.CardPaymentStrategy;
+import Assignment4.Strategy.CashOnDeliveryStrategy;
+import Assignment4.Strategy.Order;
+import Assignment4.Strategy.WalletPaymentStrategy;
+import Assignment4.TemplateMethod.ElectronicsQualityCheck;
+import Assignment4.TemplateMethod.FoodQualityCheck;
+import Assignment4.TemplateMethod.QualityCheck;
+import Assignment4.Visitor.*;
 
 // Main.java
 public class Main {
     public static void main(String[] args) throws CloneNotSupportedException {
 
+
+
+        //Observer
+        NewsPublisherImpl publisher = new NewsPublisherImpl();
+
+        Observer smartphoneSubscriber = new NewsSubscriberSmartphone();
+        Observer laptopSubscriber = new NewsSubscriberLaptop();
+        Observer tabletSubscriber = new NewsSubscriberTablet();
+
+        publisher.addObserver(smartphoneSubscriber);
+        publisher.addObserver(laptopSubscriber);
+        publisher.addObserver(tabletSubscriber);
+
+        publisher.publishNews("Sports", "Sports event today!");
+        publisher.publishNews("Science", "New discovery in space.");
+        publisher.publishNews("General", "Global news update.");
+
+
+
+        //State
+        Player player = new Player();
+
+        player.play();
+        player.pause();
+        player.play();
+        player.stop();
+
+
+
+        //Strategy
+        Order order = new Order(new CardPaymentStrategy());
+        System.out.println("Total with Card: " + order.calculateTotal(1000));
+
+        order.setPaymentStrategy(new WalletPaymentStrategy());
+        System.out.println("Total with Wallet: " + order.calculateTotal(1000));
+
+        order.setPaymentStrategy(new CashOnDeliveryStrategy());
+        System.out.println("Total with Cash on Delivery: " + order.calculateTotal(1000));
+
+
+
+        //TemplateMethod
+        QualityCheck foodCheck = new FoodQualityCheck();
+        QualityCheck electronicsCheck = new ElectronicsQualityCheck();
+
+        System.out.println("Food product quality check:");
+        foodCheck.checkProduct();
+
+        System.out.println("\nElectronics product quality check:");
+        electronicsCheck.checkProduct();
+
+
+
+        //Visitor
+        // Create files
+        File textFile = new TextFile("This is a clean document.");
+        File executableFile = new ExecutableFile("binary code without malware");
+
+        // Create visitors
+        Visitor antivirusVisitor = new AntivirusVisitor();
+        Visitor reportVisitor = new ReportVisitor();
+
+        // Perform antivirus scan
+        System.out.println("Antivirus Scan:");
+        textFile.accept(antivirusVisitor);
+        executableFile.accept(antivirusVisitor);
+
+        // Generate reports
+        System.out.println("\nGenerating Reports:");
+        textFile.accept(reportVisitor);
+        executableFile.accept(reportVisitor);
+
+
+
+        /* Assignment 3
         //Chain
         PaymentHandler paymentA = new PaymentA();
         PaymentHandler paymentB = new PaymentB();
@@ -87,7 +172,7 @@ public class Main {
         System.out.println(editor.getText()); // Output: Hello, World!
 
         caretaker.undo(editor);
-        System.out.println(editor.getText()); // Output: Hello,
+        System.out.println(editor.getText()); // Output: Hello,   */
 
 
         /* Assignment 2
